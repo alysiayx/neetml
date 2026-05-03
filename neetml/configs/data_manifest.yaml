@@ -1,0 +1,294 @@
+#########################################
+# mapping for raw data (uploaded to DSSG)
+
+attendance: # data category (without underscore, used for logical groupings for files)
+  description: Attendance data
+  is_meta: False
+  cohort_date_format: YYYY_YY # date format for Y11 cohort, e.g. 2025_26
+  keywords: 
+    - attend
+    - attendance
+  metadata:
+    sources:
+      - filename: School data metadata (census, attendance, exclusions).xlsx
+        sheetname: Attendance
+        colname: Field
+        description: Info
+        value: Values
+
+# secPExSusp:
+#   description: Secondary school permanent exclusion and suspension data
+#   is_meta: False
+#   cohort_date_format: YYYY_YY
+#   keywords:
+#     - excluded at secondary
+
+suspPermExcl:
+  description: All perm exclusion and suspension (fixed-term exclusion) data
+  is_meta: False
+  cohort_date_format: YYYY_YY
+  keywords:
+    - exclude
+    - exclusion
+    - suspension
+    - pex
+  metadata:
+    sources:
+      - filename: School data metadata (census, attendance, exclusions).xlsx
+        sheetname: Exclusions
+        colname: Field
+        description: Info
+        value: Values
+
+nccis: # (National Client Caseload Information System)
+  description: Post-16 to 19 destination data (March Version)
+  is_meta: False
+  cohort_date_format: MMM YY # e.g., Mar 18
+  keywords:
+    - Act16to19
+  filter_criteria:
+    contains:
+      - Mar
+  metadata:
+    sources:
+      - filename: NCCIS 16to19 data metadata.xlsx
+        nickname: nccis_2023
+        colname: 16to19 CSV Headers Mar 2023
+        description: Description
+        value: Further Information
+      - filename: NCCIS 16to19 data metadata.xlsx
+        nickname: nccis_2019
+        colname: 16to19 CSV Headers Mar 2019
+        description: Description
+        value: Further Information
+
+sepGuarantee:
+  description: Post-16 to 19 destination data (September Version)
+  is_meta: False
+  cohort_date_format: MMM YY
+  keywords:
+   - Act16to19
+  filter_criteria:
+    contains:
+      - Sep
+      - Oct
+  metadata:
+    sources:
+      - filename: NCCIS 16to19 data metadata.xlsx
+        nickname: nccis_2023
+        colname: 16to19 CSV Headers Mar 2023
+        description: Description
+        value: Further Information
+      - filename: NCCIS 16to19 data metadata.xlsx
+        nickname: nccis_2019
+        colname: 16to19 CSV Headers Mar 2019
+        description: Description
+        value: Further Information
+
+ks2:
+  description: Keystage 2 results
+  is_meta: False
+  cohort_date_format: YYYY_YY
+  keywords:
+    - ks2
+    - Key Stage 2
+  metadata:
+    sources:
+      - filename: GIAP 2023 v0.7 Metadata.xlsx
+        sheetname: KS2
+        nickname: giap_2023
+        colname: NPD Alias
+        description: Description
+        value: Values
+      - filename: GIAP NPD 2022 v0.4.xlsx
+        sheetname: KS2
+        nickname: giap_2022
+        colname: NPD Alias
+        description: Description
+        value: Values
+      - filename: DfE Data Dictionary.xlsx
+        sheetname: src_KS2_pupil
+        nickname: dfe
+        colname: Field Reference
+        description: Description
+        value: Allowed Values
+        skiprows: 2
+
+ks4:
+  description: Keystage 4 results
+  is_meta: False
+  cohort_date_format: YYYY_YY
+  keywords:
+    - ks4
+    - Key Stage 4
+  metadata:
+    sources:
+      - filename: GIAP 2023 v0.7 Metadata.xlsx
+        sheetname: KS4
+        nickname: giap_2023
+        colname: NPD Alias
+        description: Description
+        value: Allowed Values
+      - filename: GIAP NPD 2022 v0.4.xlsx
+        sheetname: KS4
+        nickname: giap_2022
+        colname: NPD Alias
+        description: Description
+        value: Allowed Values
+      - filename: DfE Data Dictionary.xlsx
+        sheetname: KS4_pupil
+        nickname: dfe
+        colname: Field Reference
+        description: Description
+        value: Allowed Values
+        skiprows: 2
+
+census:
+  description: Census data from year 7 to year 11
+  is_meta: False
+  cohort_date_format: YYYY_YY
+  keywords:
+    - cens
+    - census
+  metadata:
+    sources:
+      - filename: GIAP 2023 v0.7 Metadata.xlsx
+        sheetname: Census
+        nickname: giap_2023
+        colname: NPD Alias
+        description: Description
+        value: Values
+      - filename: GIAP NPD 2022 v0.4.xlsx
+        sheetname: Census
+        nickname: giap_2022
+        colname: NPD Alias
+        description: Description
+        value: Values
+      - filename: DfE Data Dictionary.xlsx
+        sheetname: src_census
+        nickname: dfe
+        colname: Field Reference
+        description: Description
+        value: Allowed Values
+        skiprows: 2
+
+# activitySurvey:
+#   is_meta: False
+#   cohort_date_format: YYYY # 2021 stands for 2020-2021
+#   keywords: 
+#     - AS Year 11
+
+EXCLUDE:
+  # Exclude files if filenames contains value defined in "name_contains" and contains "name_contains" and sheet name contains "sheets_contain"
+  description: Data that will not be used in model building
+  is_meta: False
+  # cohort_date_format: YYYY_YY
+  files: 
+    - name_contains: RONI UPNs 
+      sheets_contain: 
+        - Census
+        - Cens
+    - name_contains: ''
+      sheets_contain:
+        - Reason Codes
+        - All Permanent Excl
+        - Fixed Term_Suspensions
+        - All Suspensions
+        - Permanent Exclusions
+        - Perm Exclusions
+    - name_contains: AS Year 11 # activitySurvey
+    - name_contains: excluded at secondary
+
+#########################################
+# mapping for meta data
+
+ethnicity_code:
+  is_meta: True
+  files: 
+    - name: EAL Dashboard Version 2.1 Primary.xlsx
+      sheets:
+        - name: Ethnicity Breakdown
+          skiprows: 4
+          columns:
+            extended_code: DfE Extended Code
+            extended_categories: Approved Extended Categories
+            main_code: DfE Main Code
+            main_categories: Main Category
+            sub_categories: Sub- Category
+    # - name: GIAP NPD 2022 v0.4.xlsx
+    #   sheets:
+    #     - name: Census Ethnicity codes
+    # - name: Ethnicity Count Types 170124
+
+school_code:
+  description: Contains School Entity Code, UKPRN, and URN (GIAS)
+  is_meta: True
+  files:
+    - name: Entity Codes schools colleges 110624.xlsx
+      primary: true # if primary = True, then all data in this file will be kept. Only one file can be set as primary data
+      columns:
+        # Columns mapping (KEY:VALUE): KEY is the desired column name, VALUE is the column name in the file
+        Entity_Code: Ref
+        School_Name: Name
+        UKPRN: UKPRN
+    - name: Provider Dashboard.xlsx
+      sheets:
+        - name: Data
+          primary: False
+          columns: # the following columns will be filled or merged into primary data
+            UKPRN: UKPRN
+            School_Name: School Name (GIAS)
+            URN: URN (GIAS)
+            DFE_Estab_No: DFE Establishment Number
+            Type_Of_Estab: TypeOfEstablishment (name)
+            Town: Town
+            Street: Street
+            Ofsted_Judgement_2: Ofsted Judgement 2
+            Postcode: Postcode
+            CTE_Group: CTE Group
+            Gender: Gender (name)
+
+
+#########################################
+# config for normalise column names 
+
+standardise_colnames_rule:
+  standardise_rules:
+    - replace: ' '
+      to: '_'
+    - replace: '-'
+      to: '_'
+    - replace: 'Student_ID'
+      to: 'Stud_ID'
+    - replace: 'StudID'
+      to: 'Stud_ID'
+    - replace: 'NCCISCohort'
+      to: 'NCCIS_Cohort'
+    - replace: 'SENunitIndicator'
+      to: 'SEN_Unit_Indicator'
+    - replace: 'SENSupport'
+      to: 'SEN_Support'
+    - replace: 'SENprovision'
+      to: 'SEN_Provision'
+    - replace: 'NCyearActual'
+      to: 'NC_Year_Actual'
+    - replace: 'NCyear'
+      to: 'NC_Year'
+    - replace: 'SENneed'
+      to: 'SEN_Need'
+    # - replace: 'noSpeccon'
+    #   to: 'no_spec_con'
+    # - replace: 'SPECCON'
+    #   to: 'SPEC_CON'
+    - add_underscore_before_caps: True
+    - to_lower: True
+  exclude_files: # exclude metadata
+    - name: Activity survey metadata.xlsx
+    - name: Entity Codes schools colleges 110624.xlsx
+    - name: Ethnicity Count Types 170124.xlsx
+    - name: Provider Dashboard.xlsx
+    - name: EAL Dashboard Version 2.1 Primary.xlsx
+    - name: GIAP NPD 2022 v0.4.xlsx
+    - name: GIAP 2023 v0.7 Metadata.xlsx
+    - name: NCCIS 16to19 data metadata.xlsx
+    - name: School data metadata (census, attendance, exclusions).xlsx
