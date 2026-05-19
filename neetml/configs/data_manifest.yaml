@@ -1,9 +1,10 @@
 #########################################
 # mapping for raw data (uploaded to DSSG)
 
-attendance: # data category (without underscore, used for logical groupings for files)
+attendance: # data category (without underscore, used for logical groupings for files), this will be used as the prefix of columns for this kinds of data
   description: Attendance data
   is_meta: False
+  data_category: att
   cohort_date_format: YYYY_YY # date format for Y11 cohort, e.g. 2025_26
   keywords: 
     - attend
@@ -26,6 +27,7 @@ attendance: # data category (without underscore, used for logical groupings for 
 suspPermExcl:
   description: All perm exclusion and suspension (fixed-term exclusion) data
   is_meta: False
+  data_category: susp
   cohort_date_format: YYYY_YY
   keywords:
     - exclude
@@ -43,6 +45,7 @@ suspPermExcl:
 nccis: # (National Client Caseload Information System)
   description: Post-16 to 19 destination data (March Version)
   is_meta: False
+  data_category: nccis
   cohort_date_format: MMM YY # e.g., Mar 18
   keywords:
     - Act16to19
@@ -65,6 +68,7 @@ nccis: # (National Client Caseload Information System)
 sepGuarantee:
   description: Post-16 to 19 destination data (September Version)
   is_meta: False
+  data_category: sepGuarantee
   cohort_date_format: MMM YY
   keywords:
    - Act16to19
@@ -88,6 +92,7 @@ sepGuarantee:
 ks2:
   description: Keystage 2 results
   is_meta: False
+  data_category: ks2
   cohort_date_format: YYYY_YY
   keywords:
     - ks2
@@ -117,6 +122,7 @@ ks2:
 ks4:
   description: Keystage 4 results
   is_meta: False
+  data_category: ks4
   cohort_date_format: YYYY_YY
   keywords:
     - ks4
@@ -146,6 +152,7 @@ ks4:
 census:
   description: Census data from year 7 to year 11
   is_meta: False
+  data_category: census
   cohort_date_format: YYYY_YY
   keywords:
     - cens

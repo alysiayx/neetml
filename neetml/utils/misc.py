@@ -13,7 +13,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.colors import Colormap
 import difflib
-from typing import Union, Optional
+from typing import Union, Optional, Sequence
 from pathlib import Path
 from termcolor import colored
 from difflib import SequenceMatcher
@@ -1037,3 +1037,37 @@ def plot_group_heatmap(
         print(f"Saved heatmap to {output_file}")
     plt.show()
 
+def collapse_cols(
+    df: pd.DataFrame,
+    group_cols: Sequence[str],
+    value_cols: Sequence[str],
+    out_col: str,
+    dropna: bool = True,
+    as_str: bool = True,
+) -> pd.DataFrame:
+    """
+    Group by columns and collapse multiple value columns into one sorted unique list.
+    """
+
+    x = df[list(group_cols) + list(value_cols)].melt(
+        id_vars=list(group_cols),
+        value_vars=list(value_cols),
+        value_name=out_col,
+    )
+
+    if dropna:
+        x = x.dropna(subset=[out_col])
+
+    if as_str:
+        x[out_col] = x[out_col].astype("string").str.strip()
+        x = x[x[out_col].notna() & (x[out_col] != "")]
+    else:
+        x = x[x[out_col].notna()]
+
+    return (
+        x.drop_duplicates(list(group_cols) + [out_col])
+         .sort_values(list(group_cols) + [out_col])
+         .groupby(list(group_cols), sort=False)[out_col]
+         .agg(list)
+         .reset_index()
+    )

@@ -128,8 +128,9 @@ CSP_BASIC_SCHEMA = {
     "SCHNAME": {"name": "estab_name", "dtype": "string"},
     "POSTCODE": {"name": "postcode", "dtype": "string"},
     "GENDER": {"name": "gender_type", "dtype": "category"},
-    "NFTYPE": {"name": "type", "dtype": "category"}, # the type of school/college/institution
-    "SCHOOLTYPE": {"name": "type", "dtype": "category"},
+    "NFTYPE": {"name": "school_type", "dtype": "category"}, # the type of school/college/institution
+    # "SCHOOLTYPE": {"name": "type", "dtype": "category"}, # from school information
+    # "SCHOOLTYPE": {"name": "school_sector_group", "dtype": "category"}, # from school census
     
     # Gender
     "NOR": {"name": "total_pupils", "dtype": "Int64"},
@@ -190,9 +191,15 @@ def add_name_prefix(schema, prefix):
 
 CSP_SRC_MAPPING = {
     "england_spine": {**CSP_BASIC_SCHEMA},
-    "england_school_information": {**CSP_BASIC_SCHEMA},
+    "england_school_information": {
+        **CSP_BASIC_SCHEMA,
+        "SCHOOLTYPE": {"name": "school_type", "dtype": "category"}, # from school information
+    },
     "england_ofsted-schools": {**CSP_BASIC_SCHEMA},
-    "england_census": {**CSP_BASIC_SCHEMA},
+    "england_census": {
+        **CSP_BASIC_SCHEMA,
+        "SCHOOLTYPE": {"name": "school_sector_group", "dtype": "category"}, # from school census
+    },
     "england_abs": {**CSP_BASIC_SCHEMA},
     "england_ks2final": {**CSP_BASIC_SCHEMA, **add_name_prefix(CSP_KS_SCHEMA, "ks2_")},
     "england_ks2revised": {**CSP_BASIC_SCHEMA, **add_name_prefix(CSP_KS_SCHEMA, "ks2_")},
@@ -588,6 +595,12 @@ DATA_CATEGORIES = [
     key for key in DATA_MANIFEST.keys()
     if not DATA_MANIFEST[key].get("is_meta", True) and key != FileMetadata.EXCLUDE
 ]
+
+CATEGORY_PREFIX_MAP = {
+    cfg.get("data_category", key): key  # category : prefix
+    for key, cfg in DATA_MANIFEST.items()
+    if not cfg.get("is_meta", True) and key != FileMetadata.EXCLUDE
+}
 
 # ----------------------------------------------------------------------
 # Prefix of extended columns from public datasets
