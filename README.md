@@ -1,10 +1,22 @@
-<h1> NEETML: Machine Learning for NEET (Not in Education, Employment or Training) </h1>
+<h1> NEETML</h1>
+
+**NEETML is an open-source machine learning and data visualisation tool for predicting which young people are at risk of becoming NEET — Not in Education, Employment or Training — in England.**
+
+## Key features
+
+- Predicts the risk of young people becoming NEET
+- Provides analysis at council, school and individual levels
+- Supports early intervention by education teams and local authorities
+- Includes tools for data preparation, predictive modelling and visualisation
+- Helps users explore key risk factors associated with educational disengagement
 
 > **Note:** This project is a comprehensive update and expansion of the previous project [DSSGxUK/s23_neet](https://github.com/DSSGxUK/s23_neet). It introduces significant enhancements and new features that improve upon the original framework, designed to offer a more robust and user-friendly experience.
 
-This project aimed to develop predictive models to identify individuals at risk of becoming NEET (Not in Education, Employment, or Training), for local authorities in England for young people between 16 and 18 years old, and provide an open source tool to visualise the results at a council, school and individual level of granularity.
+## About the Project
 
-The significance of this work was to help prevent educational disengagement, unemployment and safeguarding of mental well-being in vulnerable individuals.
+NEETML was developed to help local authorities in England identify young people aged 16 to 18 who may be at risk of becoming NEET.
+
+The project uses predictive modelling to support analysis at council, school and individual levels. Its purpose is to help local authorities, education providers and support teams identify potential risks earlier and make more informed decisions about targeted interventions.
 
 Through the timely implementation of tailored interventions using intelligence provided by the project, we sought to empower the lives of the young people by ensuring they stayed engaged in education, training or found gainful employment opportunities, rather than become NEET.
 
