@@ -61,7 +61,7 @@ class FeatEngineer:
     def __init__(
         self,
         input_data_path: Union[str, Path] = None,
-        save_data_name: str = "data.parquet",
+        output_filename: str = "data.parquet",
         ext_data_dir: Union[str, Path] = None,
         proc_data_dir: Union[str, Path] = None,
         ext_link_dir: str = "3_ext_linked",
@@ -111,8 +111,8 @@ class FeatEngineer:
         self.overwrite = overwrite
         self.prefix = prefix
         self.input_data_path = input_data_path
-        self.save_data_name = save_data_name
-        logger.info(f"The default name for saving output data is set to {self.save_data_name}. You can change this using the 'set_save_data_name' method or by providing a different name when calling methods that save output data.")
+        self.output_filename = output_filename
+        logger.info(f"The default name for saving output data is set to {self.output_filename}. You can change this using the 'set_output_filename' method or by providing a different name when calling methods that save output data.")
     
     #############################################
     # Utility Functions
@@ -123,9 +123,9 @@ class FeatEngineer:
         self.input_data_path = path
         logger.info(f"Input data path set to '{self.input_data_path}'")
     
-    def set_save_data_name(self, name: str):
-        self.save_data_name = name
-        logger.info(f"Save data name set to '{self.save_data_name}'")
+    def set_output_filename(self, name: str):
+        self.output_filename = name
+        logger.info(f"Output filename set to '{self.output_filename}'")
     
     def get_data_path(
         self, 
@@ -545,7 +545,7 @@ class FeatEngineer:
             overwrite = self.overwrite
         
         output_dir = set_default_path(output_dir, self.derive_data_dir)
-        output_path = output_dir / self.save_data_name
+        output_path = output_dir / self.output_filename
         
         if output_path.exists() and not overwrite:
             df = load_dataframe(output_path)
@@ -666,7 +666,7 @@ class FeatEngineer:
             overwrite = self.overwrite
         
         output_dir = set_default_path(output_dir, self.agg_data_dir)
-        output_path = output_dir / self.save_data_name
+        output_path = output_dir / self.output_filename
         conflict_output_path = output_dir / "conflict.yaml"
         
         if output_path.exists() and not overwrite:
