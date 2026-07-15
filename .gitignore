@@ -1,0 +1,29 @@
+# Poetry / local generated files
+.venv/
+/dist/
+
+# Quarto
+/guide_notebook/.quarto/
+.quarto/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Notebook / Jupyter generated files
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+.virtual_documents
+
+
+# History files
+/neetml/.history/
+.history/
+*.history
+
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
