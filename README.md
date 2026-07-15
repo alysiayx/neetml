@@ -1,8 +1,9 @@
 # NEETML
 
 ![Python 3.11 and 3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)
-![Version 0.1.0rc1](https://img.shields.io/badge/version-0.1.0rc1-0A7BBC)
+[![PyPI version](https://img.shields.io/pypi/v/neetml.svg)](https://pypi.org/project/neetml/)
 ![Release status: pre-release](https://img.shields.io/badge/status-pre--release-orange)
+[![License](https://img.shields.io/github/license/alysiayx/neetml.svg?cacheSeconds=60)](https://github.com/alysiayx/neetml/blob/main/LICENSE)
 
 NEETML is a machine learning toolkit for identifying young people at risk of becoming **Not in Education, Employment or Training (NEET)** in England.
 
@@ -24,6 +25,7 @@ NEETML is a machine learning toolkit for identifying young people at risk of bec
   - [Data coverage](#data-coverage)
   - [Potential risk of NEET indicators](#potential-risk-of-neet-indicators)
   - [Similar tools](#similar-tools)
+  - [Citation](#citation)
 
 ## Installation
 
@@ -125,3 +127,7 @@ Our work concluded the following were the most prevalent RONIs using the range o
 ## Similar tools
 
 NEET tool developed by [Insight Bristol](https://www.bristol.gov.uk/residents/social-care-and-health/children-and-families/insight-bristol) and used within the [Think Family Database](https://thinkfamily.bristolsafeguarding.org/think-family/?query=NEET).
+
+## Citation
+
+If you use **neetml** in your research, please cite this repository using the GitHub citation information or the BibTeX entry available under **"Cite this repository"**.
