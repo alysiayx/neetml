@@ -93,7 +93,7 @@ def add_iod(
     if not col_imd:
         col_imd = ExtRefs.imd_decile_col(iod_version)
     
-    if not df_onspd:
+    if df_onspd is None:
         df_onspd_bd = pd.read_csv(DATA_PATHS['EXT_DATA_DIR'] / ExtRefs.ONSPD_BD_FILE)
         df_onspd_leeds = pd.read_csv(DATA_PATHS['EXT_DATA_DIR'] / ExtRefs.ONSPD_LS_FILE)
         df_onspd = pd.concat([df_onspd_bd, df_onspd_leeds])
@@ -104,7 +104,7 @@ def add_iod(
         logger.debug(f"ONSPD columns: {df_onspd.columns.tolist()}")
         styled_print(f"ONSPD lookup ready: {df_onspd.shape[0]} rows loaded", colour="green")
 
-    if not df_iod:
+    if df_iod is None:
         logger.info(f"Loading IoD scores from file: {ExtRefs.iod_file(iod_version)} (version {iod_version})")
         df_iod = pd.read_csv(DATA_PATHS['EXT_DATA_DIR'] / ExtRefs.iod_file(iod_version))
     
@@ -468,7 +468,12 @@ def build_school_perf_data(
                         logger.debug(f"Sample values after conversion: {df[col].head(10).tolist()}")
                  
                     #  we keep all values in range 0-1 for rate columns
-                    if new_name.lower().endswith("rate") and max(df[col].dropna()) > 1:
+                    non_null_values = df[col].dropna()
+                    if (
+                        new_name.lower().endswith("rate")
+                        and not non_null_values.empty
+                        and non_null_values.max() > 1
+                    ):
                         logger.warning(f"Column '{col}' ({new_name}) in file: {file.name} seems to be a rate column with values greater than 1 after conversion. Please double check if this is expected. If this column is expected to be a rate, the values will be divided by 100.")
                         logger.debug(f"Sample values before conversion: {df[col].head(10).tolist()}")
                         df[col] = (df[col] / 100).round(2)
