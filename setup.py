@@ -43,11 +43,11 @@ setup(
     # package_dir={'': '.'}, 
     install_requires=requirements,
     
-    entry_points={
-        'console_scripts': [
-            'neetml=neetml.cli:main',
-        ]
-    },
+    # entry_points={
+    #     'console_scripts': [
+    #         'neetml=neetml.cli:main',
+    #     ]
+    # },
     
     author="Yanhua Xu",
     
