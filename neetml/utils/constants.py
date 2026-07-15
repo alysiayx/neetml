@@ -421,7 +421,7 @@ class ColumnSchema(metaclass=FrozenClassMeta):
         'matlev', 'matlevta', 'scilevta', 'gpslev', 'readoutcome', 'matoutcome', 'gpsoutcome',
         'readspeccon', 'scitaoutcome', 'mattaoutcome', 'readtaoutcome',
         'ks1average_grp', 'ks1average_grp_p', 'ks4_apger_91', 'ks4_apdra_91', 'ks4_apmus_91', 
-        'ks4_apmft_91', 'ks4_apita_91', 'ks4_apara_91', 'ks4_appan_91', 'exclusion_reason_3'
+        'ks4_apmft_91', 'ks4_apita_91', 'ks4_apara_91', 'ks4_appan_91', 'exclusion_reason_3',
         'ethnic_origin'
     }
 
@@ -493,7 +493,7 @@ DROP_COLS = {
     "nccis_date_of_birth", # half of them are missing and seems not accurate as census data
     "nccis_gender", # seems not accurate as census data,
     "ks2_gender", # use census data instead, as some students have gender records that conflict with the census data.
-    "ks4_gender" # use census data instead, as some students have gender records that conflict with the census data.
+    "ks4_gender", # use census data instead, as some students have gender records that conflict with the census data.
     "nccis_sex_code", # use census data instead, as some students have gender records that conflict with the census data.
     "nccis_calculated_sex_code", # use census data instead, as some students have gender records that conflict with the census data.
     "nccis_establishment_type", # only two people have this record
