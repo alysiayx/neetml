@@ -1,5 +1,6 @@
 # Poetry / local generated files
-/guide_installation/poetry/$
+.venv/
+/dist/
 
 # Quarto
 /guide_notebook/.quarto/
