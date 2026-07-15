@@ -4,9 +4,7 @@
 ![Version 0.1.0rc1](https://img.shields.io/badge/version-0.1.0rc1-0A7BBC)
 ![Release status: pre-release](https://img.shields.io/badge/status-pre--release-orange)
 
-NEETML is an open-source project for preparing education data and developing
-tools to identify young people in England who may be at risk of becoming NEET
-— Not in Education, Employment or Training.
+NEETML is a machine learning toolkit for identifying young people at risk of becoming **Not in Education, Employment or Training (NEET)** in England.
 
 > **Pre-release notice**
 >
