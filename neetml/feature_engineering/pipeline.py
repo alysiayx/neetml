@@ -127,10 +127,13 @@ class FeatEngineer:
         self.output_filename = name
         logger.info(f"Output filename set to '{self.output_filename}'")
     
+    def get_output_filename(self) -> str:
+        return self.output_filename
+    
     def get_data_path(
         self, 
         keys: Union[
-            Literal["input", "external", "processed", "derived", "aggregated", "all"],
+            Literal["input", "external", "processed", "derived", "aggregated", "all", "output"],
             list
         ],
         return_as_dict: bool = False,
@@ -183,6 +186,7 @@ class FeatEngineer:
             "processed": (self.proc_data_dir, "Folder to store processed data outputs (e.g., aggregated datasets, feature-engineered datasets)"),
             "derived": (self.derive_data_dir, "Folder to store data with derived features"),
             "aggregated": (self.agg_data_dir, "Folder to store aggregated data"),
+            "output": (self.proc_data_dir / self.output_filename, "Path for saving output data"),
         }
 
         # Handle "all" option
