@@ -8,14 +8,14 @@ from .misc import parse_yaml
 # Default Path
 # ----------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent # suppose download from github repo
-PKG_ROOT = Path(__file__).resolve().parent.parent.parent
+PKG_ROOT = Path(__file__).resolve().parent.parent
 BASE_DATA_DIR = PROJECT_ROOT / 'data'
 
 # Logs
 LOGS_DIR = PROJECT_ROOT / 'logs'
 
-DATA_MANIFEST_PATH = PROJECT_ROOT / "neetml" / "configs" / "data_manifest.yaml"
-MODEL_CONFIG_PATH = PROJECT_ROOT / "neetml" / "configs" / "model_config.yaml"
+DATA_MANIFEST_PATH = PKG_ROOT / "configs" / "data_manifest.yaml"
+MODEL_CONFIG_PATH = PKG_ROOT / "configs" / "model_config.yaml"
 
 # Define structured data directories
 SRC_DATA_DIR = BASE_DATA_DIR / '00_source'
