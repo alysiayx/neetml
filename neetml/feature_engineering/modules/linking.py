@@ -111,6 +111,8 @@ def add_iod(
     df = input_data.copy(deep=True)
     logger.debug(f"Before mapping IoD scores, the dataframe shape: {df.shape}")
     
+    prefix = prefix if prefix and prefix.endswith("_") else f"{prefix}_" if prefix else ""
+    
     # Clean and standardize postcode columns for matching
     df[f'{col_pd}_clean'] = (
         df[col_pd].str.upper().str.replace(' ', '').str.strip()
@@ -189,7 +191,7 @@ def add_iod(
                 strip_underscores=True
             ).columns.tolist()[0]
         
-        new_colname = f'{prefix}_{new_colname}'
+        new_colname = f'{prefix}{new_colname}'
         
         logger.debug(f"Renaming column '{col}' to '{new_colname}' for better readability.")
         lsoa_to_score = dict(zip(df_iod[col_iod_oa], df_iod[col]))
