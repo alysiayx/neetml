@@ -1,21 +1,18 @@
 #!/bin/bash
 
-# Check if virtual environment folder already exists
-if [ ! -d "neet_ml_env" ]; then
-    # Create a virtual environment
-    echo "Creating a virtual environment..."
-    python -m venv neet_ml_env
-else
-    echo "Virtual environment already exists."
+set -e
+
+if ! command -v poetry >/dev/null 2>&1; then
+    echo "Poetry is required. Install it from https://python-poetry.org/docs/#installation"
+    exit 1
 fi
 
-# Activate the virtual environment
-echo "Activating the virtual environment..."
-source neet_ml_env/bin/activate
+if [ -z "${CONDA_PREFIX:-}" ]; then
+    echo "Activate a Conda environment before running this script."
+    exit 1
+fi
 
-# Install the package using the setup.py in editable mode
-echo "Installing the neet-ml package..."
-pip install -e .
+echo "Installing NEETML into the active Conda environment: ${CONDA_PREFIX}"
+poetry install
 
-echo "Setup is complete. The environment 'neet_ml_env' is ready to use."
-echo "To activate the virtual environment, use 'source neet_ml_env/bin/activate' in this terminal."
+echo "Setup is complete. Keep the Conda environment active when using NEETML."

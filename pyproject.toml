@@ -1,0 +1,41 @@
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "neetml"
+version = "0.1.0rc1"
+description = "Machine-learning tools for predicting NEET risk among students."
+readme = "README.md"
+license = "MIT"
+authors = ["Yanhua Xu"]
+homepage = "https://github.com/alysiayx/neetml"
+repository = "https://github.com/alysiayx/neetml"
+packages = [{ include = "neetml" }]
+include = ["neetml/configs/*.yaml"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+beautifulsoup4 = ">=4.12"
+colorlog = ">=6.8"
+matplotlib = ">=3.8"
+networkx = ">=3.2"
+numpy = ">=1.26"
+openpyxl = ">=3.1"
+pandas = ">=2.2"
+pyarrow = ">=15"
+pyjanitor = ">=0.30"
+python-dateutil = ">=2.9"
+pyyaml = ">=6.0"
+requests = ">=2.31"
+rich = ">=13.7"
+tabulate = ">=0.9"
+tqdm = ">=4.66"
+ydata-profiling = ">=4.10"
