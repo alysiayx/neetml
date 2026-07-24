@@ -163,6 +163,57 @@ characteristics = {
     "nccis_looked_after_in_care": "Looked after / In care",
 }
 
+# Reference: GIAP 2023 v0.7 Metadata.xlsx
+ks_nftype_map = {
+    20: "Academy - Sponsor Led",
+    21: "Community School",
+    22: "Voluntary Aided School",
+    23: "Voluntary Controlled School",
+    24: "Foundation School",
+    25: "City Technology College",
+    26: "Community Special School",
+    27: "Foundation Special School",
+    28: "Non-Maintained Special School",
+    29: "Independent School approved to take pupils with Special Educational Needs",
+    30: "Independent",
+    31: "Further Education Sector Institution",
+    32: "Community Hospital School",
+    33: "Foundation Hospital School",
+    34: "Pupil Referral Unit",
+    35: "6th Form Centre/Consortium",
+    36: "Institution funded by other Government department",
+    37: "Federation",
+    38: "Special Colleges",
+    39: "Other Independent Special School",
+    41: "European Schools",
+    42: "Playing for Success Centres",
+    43: "Offshore Schools",
+    44: "Overseas Schools/Service Children's Education",
+    45: "Higher Education Institutions",
+    46: "Welsh Establishment",
+    47: "LA Nursery School",
+    48: "Independent Special School",
+    50: "Academy - Special School",
+    51: "Academy - Converter",
+    52: "Free School - Mainstream",
+    53: "Special Free School",
+    54: "British Overseas School",
+    55: "Converter Special Academy",
+    56: "Free School - Alternative Provision",
+    57: "Free School - UTC",
+    58: "Free School - Studio School",
+    59: "Free School - 16-19",
+    60: "International School",
+    61: "Academy Converter",
+    62: "Academy - Sponsor Led AP",
+    63: "Academy 16-19 Converter",
+    64: "Academy 16-19 Sponsor Led",
+    97: "Alternative Provision",
+    98: "Legacy types/Miscellaneous",
+    99: "Secure Unit",
+}
+
+
 # References:
 # https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/ethnicity/bulletins/ethnicgroupenglandandwales/census2021
 # https://www.ethnicity-facts-figures.service.gov.uk/style-guide/ethnic-groups/

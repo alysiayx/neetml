@@ -1,0 +1,128 @@
+# Binary NEET-risk model definitions.
+# Hyperparameter names follow sklearn Pipeline's <step>__<parameter> syntax.
+models:
+  logistic_regression:
+    kind: ml
+    parameters:
+      class_weight: balanced
+      max_iter: 2000
+      solver: liblinear
+      random_state: 42
+    hyperparameter_space:
+      model__C: [0.01, 0.1, 1.0, 10.0, 100.0]
+      model__penalty: [l1, l2]
+      selector__threshold: [median, mean]
+
+  random_forest:
+    kind: ml
+    parameters:
+      class_weight: balanced
+      n_estimators: 300
+      n_jobs: -1
+      random_state: 42
+    hyperparameter_space:
+      model__n_estimators: [200, 300, 500]
+      model__max_depth: [null, 8, 16, 24]
+      model__min_samples_split: [2, 5, 10]
+      model__min_samples_leaf: [1, 2, 4]
+      model__max_features: [sqrt, log2, 0.5]
+      selector__threshold: [median, mean]
+
+  xgboost:
+    kind: ml
+    parameters:
+      objective: binary:logistic
+      eval_metric: logloss
+      n_estimators: 300
+      n_jobs: -1
+      random_state: 42
+    hyperparameter_space:
+      model__n_estimators: [200, 300, 500]
+      model__max_depth: [3, 5, 8]
+      model__learning_rate: [0.01, 0.05, 0.1]
+      model__subsample: [0.7, 0.9, 1.0]
+      model__colsample_bytree: [0.6, 0.8, 1.0]
+      model__min_child_weight: [1, 5, 10]
+
+  lightgbm:
+    kind: ml
+    parameters:
+      objective: binary
+      class_weight: balanced
+      n_estimators: 300
+      n_jobs: -1
+      random_state: 42
+      verbosity: -1
+    hyperparameter_space:
+      model__n_estimators: [200, 300, 500]
+      model__num_leaves: [15, 31, 63]
+      model__max_depth: [-1, 8, 16]
+      model__learning_rate: [0.01, 0.05, 0.1]
+      model__subsample: [0.7, 0.9, 1.0]
+      model__colsample_bytree: [0.6, 0.8, 1.0]
+
+  # A multilayer perceptron is used because the input is ordinary tabular data.
+  # CNN/RNN/LSTM models would assume a meaningful sequence among feature columns.
+  mlp:
+    kind: deep_learning
+    parameters:
+      epochs: 30
+      batch_size: 32
+      verbose: 0
+      random_state: 42
+    hyperparameter_space:
+      model__model__hidden_layer_sizes:
+        - [64, 32]
+        - [128, 64]
+        - [128, 64, 32]
+      model__model__dropout_rate: [0.1, 0.2, 0.4]
+      model__model__learning_rate: [0.0003, 0.001, 0.003]
+      model__batch_size: [32, 64]
+      model__epochs: [20, 40]
+      selector__threshold: [median, mean]
+
+  ft_transformer:
+    kind: deep_learning
+    parameters:
+      model__architecture: ft_transformer
+      epochs: 30
+      batch_size: 32
+      verbose: 0
+      random_state: 42
+    hyperparameter_space:
+      model__model__token_dim: [8, 16, 32]
+      model__model__num_heads: [2, 4]
+      model__model__n_transformer_blocks: [1, 2, 3]
+      model__model__dropout_rate: [0.1, 0.2, 0.3]
+      model__model__learning_rate: [0.0003, 0.001]
+      model__batch_size: [32, 64]
+      selector__threshold: [median, mean]
+
+  tabnet:
+    kind: tabnet
+    parameters:
+      n_d: 16
+      n_a: 16
+      n_steps: 5
+      max_epochs: 100
+      patience: 10
+      random_state: 42
+      verbose: 0
+    hyperparameter_space:
+      model__n_d: [8, 16, 32]
+      model__n_a: [8, 16, 32]
+      model__n_steps: [3, 5, 7]
+      model__gamma: [1.2, 1.5, 2.0]
+      model__lambda_sparse: [0.00001, 0.0001, 0.001]
+      model__learning_rate: [0.005, 0.01, 0.02]
+      selector__threshold: [median, mean]
+
+  # Optional current-generation tabular foundation model. It performs its own
+  # preprocessing and downloads model weights on first use. GPU is recommended.
+  tabpfn:
+    kind: foundation
+    parameters:
+      device: auto
+      n_estimators: 8
+      random_state: 42
+    hyperparameter_space: {}

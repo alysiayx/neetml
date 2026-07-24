@@ -1,0 +1,78 @@
+version: 0.1
+
+project:
+  root: .
+
+paths:
+  # Source and top-level data directories.
+  data_dir: data                          # Root for all project data.
+  raw_dir:                                # Original source datasets.
+    base: data_dir
+    path: 00_source
+  raw_meta_dir:                           # Source dictionaries and metadata.
+    base: data_dir
+    path: 00_source_meta
+  external_dir:                           # External reference datasets.
+    base: data_dir
+    path: 00_external
+  interim_dir:                            # Standardised intermediate files.
+    base: data_dir
+    path: 01_source_colstd
+  processed_dir:                          # Root for prepared data products.
+    base: data_dir
+    path: 02_processed
+
+  # Metadata files produced during data preparation.
+  file_meta_path:                         # Inventory of source files.
+    base: processed_dir
+    path: file_metadata.xlsx
+  col_meta_path:                          # Column definitions and data types.
+    base: processed_dir
+    path: col_metadata.xlsx
+
+  # Step-by-step data products. Each path follows processed_dir unless
+  # the user overrides that stage explicitly in .neetml/config.yaml.
+  cleaned_dir:                            # Validated and cleaned source files.
+    base: processed_dir
+    path: 1_cleaned
+  merged_dir:                             # Files joined across source systems.
+    base: processed_dir
+    path: 2_merged
+  linked_dir:                             # Data enriched with external sources.
+    base: processed_dir
+    path: 3_ext_linked
+  derived_dir:                            # Data with derived variables.
+    base: processed_dir
+    path: 4_derived
+  aggregated_dir:                         # Consolidated student-level outputs.
+    base: processed_dir
+    path: 5_aggregated
+  profile_dir:                            # Data-quality profile reports.
+    base: processed_dir
+    path: profiles
+
+  # Model and reporting outputs.
+  artifacts_dir: artifacts                # Root for generated project outputs.
+  models_dir: artifacts/models            # Fitted models and model metadata.
+  reports_dir: artifacts/reports          # Tables, figures and reports.
+  experiments_dir: artifacts/experiments  # Profile-isolated experiment outputs.
+
+datasets:
+  sample:                                 # Synthetic data for code validation.
+    dir: guide_notebook
+    file: sample.parquet
+  prepared:                               # Data-preparation output and feature-engineering input.
+    # Point dir to merged_dir when merging is the final preparation step.
+    dir: merged_dir
+    file: longitudinal.parquet
+  model_input:                            # Feature-engineering output used for modelling.
+    dir: data_dir
+    file: longitudinal.parquet
+
+profiles:
+  sample:                                 
+    dataset: sample
+    output: sample
+  real:                                   
+    dataset: model_input
+    output: real

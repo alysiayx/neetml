@@ -845,9 +845,9 @@ def append_nccis_data(
         valid_students = school_data[stud_id_col].unique()
         logger.info(f"Found {len(valid_students)} students at the academic age of {current_academic_age}.")
         
-        # First Phase: September -> March (pre-spring)
+        # Phase 1: September -> March (pre-spring)
         # NCCIS September data is merged as training data, with NCCIS March as the target.
-        # Second Phase: March -> September (post-spring)
+        # Phase 2: March -> September (post-spring)
         # NCCIS March data replaces September data and serves as the training set, with next-year September as the target.
         
         for phase_label, training_source, target_source in [

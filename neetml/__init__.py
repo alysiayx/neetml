@@ -1,9 +1,25 @@
-"""NEETML public package metadata."""
+from .config import NEETMLConfig
 
-from importlib.metadata import PackageNotFoundError, version
+__all__ = [
+    "NEETMLConfig",
+    "DataPreprocessor",
+    "FeatureEngineer",
+    "ModelTrainer",
+]
 
 
-try:
-    __version__ = version("neetml")
-except PackageNotFoundError:
-    __version__ = "unknown"
+def __getattr__(name: str):
+    """Load workflow classes only when requested."""
+    if name == "DataPreprocessor":
+        from .preprocessing import DataPreprocessor
+
+        return DataPreprocessor
+    if name == "FeatureEngineer":
+        from .features import FeatureEngineer
+
+        return FeatureEngineer
+    if name == "ModelTrainer":
+        from .modeling.trainer import ModelTrainer
+
+        return ModelTrainer
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

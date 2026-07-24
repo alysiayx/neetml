@@ -32,8 +32,7 @@ def set_default_path(
     default_path: Union[str, Path],
 ) -> Path:
     """
-    Set the path and create directories if necessary. If the provided path is None, use the default path.
-    Automatically detect whether the path is a directory or a file.
+    Resolve a provided path or fall back to its configured default.
 
     Parameters
     ----------
@@ -48,17 +47,32 @@ def set_default_path(
     Path
         The final path that was set.
     """
-    if path is None:
-        path = Path(default_path)
+    return Path(default_path) if path is None else Path(path)
+
+
+def make_output_dir(
+    path: Union[str, Path],
+    *,
+    logger: logging.Logger | None = None,
+) -> Path:
+    """Create the directory needed for a directory or file output path.
+
+    Existing paths use their filesystem type. For a new path, a file suffix
+    indicates a file output; otherwise the path itself is treated as a directory.
+    """
+    output_path = Path(path)
+    if output_path.exists():
+        output_dir = output_path if output_path.is_dir() else output_path.parent
     else:
-        path = Path(path)
-
-    # Detect if the path is a directory by checking if it has a file extension
-    if path.suffix == '':
-        # No file extension means it's a directory, so create the directory
-        path.mkdir(parents=True, exist_ok=True)
-
-    return path
+        output_dir = output_path.parent if output_path.suffix else output_path
+    created = not output_dir.exists()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    if created:
+        (logger or logging.getLogger(__name__)).info(
+            "Created output directory: %s",
+            output_dir,
+        )
+    return output_dir
 
 def styled_print(message: str, colour: str = 'cyan', bold: bool = True, console: Console = None):
     """
@@ -1046,9 +1060,8 @@ def collapse_cols(
     as_str: bool = True,
 ) -> pd.DataFrame:
     """
-    Group by columns and collapse multiple value columns into one sorted unique list.
+    Group by columns and collapse multiple value columns into a (sorted) tuple.
     """
-
     x = df[list(group_cols) + list(value_cols)].melt(
         id_vars=list(group_cols),
         value_vars=list(value_cols),
@@ -1057,6 +1070,7 @@ def collapse_cols(
 
     if dropna:
         x = x.dropna(subset=[out_col])
+        # print(f"{df.stud_id.nunique() - x.stud_id.nunique()} records are dropped.")
 
     if as_str:
         x[out_col] = x[out_col].astype("string").str.strip()
@@ -1067,7 +1081,7 @@ def collapse_cols(
     return (
         x.drop_duplicates(list(group_cols) + [out_col])
          .sort_values(list(group_cols) + [out_col])
-         .groupby(list(group_cols), sort=False)[out_col]
-         .agg(list)
+         .groupby(list(group_cols), dropna=False, sort=False)[out_col]
+         .agg(tuple)
          .reset_index()
     )

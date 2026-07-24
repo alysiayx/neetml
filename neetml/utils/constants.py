@@ -1,43 +1,46 @@
-import os
 from pathlib import Path
 from rich import print
 
+from ..config import NEETMLConfig
 from .misc import parse_yaml
 
 # ----------------------------------------------------------------------
 # Default Path
 # ----------------------------------------------------------------------
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent # suppose download from github repo
-PKG_ROOT = Path(__file__).resolve().parent.parent
-BASE_DATA_DIR = PROJECT_ROOT / 'data'
+# PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent # suppose download from github repo
+
+_SETTINGS = NEETMLConfig.load()
+PROJECT_ROOT = _SETTINGS.project_root
+
+# PKG_ROOT = Path(__file__).resolve().parent.parent
+
+PKG_ROOT = PROJECT_ROOT / 'neetml'  # package root (where the neetml package is located)
+
+BASE_DATA_DIR = _SETTINGS.get_path("data_dir")
 
 # Logs
-LOGS_DIR = PROJECT_ROOT / 'logs'
+LOGS_DIR = PROJECT_ROOT / "logs"
 
 DATA_MANIFEST_PATH = PKG_ROOT / "configs" / "data_manifest.yaml"
 MODEL_CONFIG_PATH = PKG_ROOT / "configs" / "model_config.yaml"
 
 # Define structured data directories
-SRC_DATA_DIR = BASE_DATA_DIR / '00_source'
-SRC_META_DIR = BASE_DATA_DIR / '00_source_meta'
-EXT_DATA_DIR = BASE_DATA_DIR / "00_external"
-SRC_COLSTD_DIR = BASE_DATA_DIR / '01_source_colstd'  # standarised column names
-PROC_DATA_DIR = BASE_DATA_DIR / '02_processed'
-
-# Ensure directories exist
-for path in [SRC_DATA_DIR, SRC_META_DIR, EXT_DATA_DIR, SRC_COLSTD_DIR, PROC_DATA_DIR]:
-    path.mkdir(parents=True, exist_ok=True)
+SRC_DATA_DIR = _SETTINGS.get_path("raw_dir")
+SRC_META_DIR = _SETTINGS.get_path("raw_meta_dir")
+EXT_DATA_DIR = _SETTINGS.get_path("external_dir")
+SRC_COLSTD_DIR = _SETTINGS.get_path("interim_dir")
+PROC_DATA_DIR = _SETTINGS.get_path("processed_dir")
 
 # Define specific file paths
-FILE_METADATA_PATH = PROC_DATA_DIR / 'file_metadata.xlsx'
-COL_METADATA_PATH = PROC_DATA_DIR / 'col_metadata.xlsx'
+FILE_METADATA_PATH = _SETTINGS.get_path("file_meta_path")
+COL_METADATA_PATH = _SETTINGS.get_path("col_meta_path")
 
 # Additional processing folders (inside `02. processed`)
-CLEAN_DATA_DIR = PROC_DATA_DIR / "1_cleaned"
-MERGE_DATA_DIR = PROC_DATA_DIR / "2_merged"
-LINK_DATA_DIR = PROC_DATA_DIR / "3_ext_linked"
-DERIVE_DATA_DIR = PROC_DATA_DIR / "4_derived"
-AGG_DATA_DIR = PROC_DATA_DIR / "5_aggregated"
+CLEAN_DATA_DIR = _SETTINGS.get_path("cleaned_dir")
+MERGE_DATA_DIR = _SETTINGS.get_path("merged_dir")
+LINK_DATA_DIR = _SETTINGS.get_path("linked_dir")
+DERIVE_DATA_DIR = _SETTINGS.get_path("derived_dir")
+AGG_DATA_DIR = _SETTINGS.get_path("aggregated_dir")
 
 # # Create these directories if they don't exist
 # for path in [CLEANED_DATA_PATH, MERGED_DATA_PATH, AGGREGATED_DATA_PATH]:
@@ -45,6 +48,7 @@ AGG_DATA_DIR = PROC_DATA_DIR / "5_aggregated"
 
 # Store as constants for easy imports
 DATA_PATHS = {
+    'BASE_DATA_DIR': BASE_DATA_DIR,
     'SRC_DATA_DIR': SRC_DATA_DIR,
     'SRC_META_DIR': SRC_META_DIR,
     'EXT_DATA_DIR': EXT_DATA_DIR,

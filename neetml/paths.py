@@ -1,5 +1,6 @@
 from pathlib import Path
-import os
+
+from .config import NEETMLConfig
 
 # ------------------------------- init + getters -----------------------------
 _DATA_ROOT: Path | None = None
@@ -10,7 +11,12 @@ def _reset_all():
     _DATA_ROOT = None
     _PATHS.clear()
 
-def init(root: str | Path | None = None, *, force: bool = False) -> None:
+def init(
+    root: str | Path | None = None,
+    *,
+    force: bool = False,
+    create: bool = False,
+) -> None:
     global _DATA_ROOT, _PATHS
     if _DATA_ROOT and not force:
         return
@@ -18,26 +24,30 @@ def init(root: str | Path | None = None, *, force: bool = False) -> None:
     if force:
         _reset_all()
 
-    root = Path(root or os.getenv("NEETML_DATA_DIR") or ".").expanduser().resolve()
-    _DATA_ROOT = root
+    settings = NEETMLConfig.load(project_root=root)
+    _DATA_ROOT = settings.project_root
 
     _PATHS = {
-        "SRC_DATA_DIR"  : root / "00_source",
-        "SRC_META_DIR"  : root / "00_source_meta",
-        "EXT_DATA_DIR"  : root / "00_external",
-        "SRC_COLSTD_DIR": root / "01_source_colstd",
-        "PROC_DATA_DIR" : root / "02_processed",
+        "DATA_DIR": settings.get_path("data_dir"),
+        "SRC_DATA_DIR": settings.get_path("raw_dir"),
+        "SRC_META_DIR": settings.get_path("raw_meta_dir"),
+        "EXT_DATA_DIR": settings.get_path("external_dir"),
+        "SRC_COLSTD_DIR": settings.get_path("interim_dir"),
+        "PROC_DATA_DIR": settings.get_path("processed_dir"),
+        "FILE_METADATA_PATH": settings.get_path("file_meta_path"),
+        "COL_METADATA_PATH": settings.get_path("col_meta_path"),
+        "CLEAN_DIR": settings.get_path("cleaned_dir"),
+        "MERGE_DIR": settings.get_path("merged_dir"),
+        "LINK_DIR": settings.get_path("linked_dir"),
+        "DERIVE_DIR": settings.get_path("derived_dir"),
+        "AGG_DIR": settings.get_path("aggregated_dir"),
+        "PROFILE_DIR": settings.get_path("profile_dir"),
     }
-    _PATHS.update({
-        "CLEAN_DIR" : _PATHS["PROC_DATA_DIR"] / "1_cleaned",
-        "MERGE_DIR" : _PATHS["PROC_DATA_DIR"] / "2_merged",
-        "AGG_DIR"   : _PATHS["PROC_DATA_DIR"] / "3_aggregated",
-    })
-    
-    # for p in _PATHS.values(): p.mkdir(parents=True, exist_ok=True)
+
     for k, v in _PATHS.items():
         globals()[k] = v
-        v.mkdir(parents=True, exist_ok=True)
+        if create:
+            v.mkdir(parents=True, exist_ok=True)
 
 def reset(root: str | Path | None = None) -> None:
     """Hard reset the data root no matter what."""
