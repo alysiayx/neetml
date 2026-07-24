@@ -1,41 +1,71 @@
-[build-system]
-requires = ["poetry-core>=1.9.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.poetry]
 name = "neetml"
 version = "0.1.0rc1"
-description = "Machine-learning tools for predicting NEET risk among students."
+description = "predicting NEET risk using machine learning"
+authors = ["Yanhau Xu"]
+license = "MIT License"
 readme = "README.md"
-license = "MIT"
-authors = ["Yanhua Xu"]
-homepage = "https://github.com/alysiayx/neetml"
-repository = "https://github.com/alysiayx/neetml"
-packages = [{ include = "neetml" }]
-include = ["neetml/configs/*.yaml"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Education",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
+package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-beautifulsoup4 = ">=4.12"
-colorlog = ">=6.8"
-matplotlib = ">=3.8"
-networkx = ">=3.2"
-numpy = ">=1.26"
-openpyxl = ">=3.1"
-pandas = ">=2.2"
-pyarrow = ">=15"
-pyjanitor = ">=0.30"
-python-dateutil = ">=2.9"
-pyyaml = ">=6.0"
-requests = ">=2.31"
-rich = ">=13.7"
-tabulate = ">=0.9"
-tqdm = ">=4.66"
-ydata-profiling = ">=4.10"
+python = ">=3.11, <3.13"
+pip = ">=24.0"
+numpy = "~1.26"
+matplotlib = "~3.8"
+scikit-learn = "~1.4"
+lightgbm = "~4.3"
+streamlit = "^1.39.0"
+pandas = "~2.2"
+wheel = ">=0.43.0"
+setuptools = "80.9.0"
+openpyxl = "~3.1"
+tabulate = "~0.9"
+colorlog = "~6.8"
+ipykernel = "~6.29"
+# neetml = { path = "../../" }
+tensorflow = "~2.17"
+pywin32 = { version = ">=306", markers = "sys_platform == 'win32'" }
+pyyaml = "~6.0"
+streamlit-extras = "~0.4"
+ydata-profiling = "~4.10"
+streamlit-option-menu = "~0.4"
+branca = "~0.8"
+folium = "~0.17"
+streamlit-folium = "~0.23"
+pyarrow = "~17.0"
+streamlit-plotly-events = "^0.0.6"
+jupyter = "^1.1.1"
+ipywidgets = "^8.1.5"
+rich = "^13.9.2"
+prettytable = "^3.12.0"
+pyjanitor = "^0.30.0"
+shap = "^0.48.0"
+catboost = "^1.2.8"
+autogluon = "^1.4.0"
+autogluon-tabular = {extras = ["tabpfn"], version = "^1.4.0"}
+h2o = "^3.46.0.7"
+tabpfn = "^2.1.2"
+xlrd = "^2.0.2"
+scikeras = "^0.13.0"
+
+[tool.poetry.group.test.dependencies]
+sdv = "^1.37.3"
+faker = "^40.28.1"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["neetml*"]
+
+[tool.setuptools.package-data]
+neetml = ["configs/*.yaml"]
+
+[build-system]
+requires = ["poetry-core", "setuptools", "wheel"]
+# build-backend = "poetry.core.masonry.api" # Using Poetry
+build-backend = "setuptools.build_meta" # Using Setuptools
+
+[virtualenvs]
+# create = true
+create = false # use currently active virtual environments
